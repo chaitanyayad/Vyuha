@@ -1,0 +1,15 @@
+[project]
+name = "vyuha"
+version = "0.1.0"
+description = "A layered trust gateway for tool-using AI agents."
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+filterwarnings = [
+    # FastAPI's on_event shim; the app is small enough that a lifespan handler
+    # would be more ceremony than the startup hook it replaces.
+    "ignore::DeprecationWarning:fastapi.*",
+]
