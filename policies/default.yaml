@@ -1,0 +1,87 @@
+version: 1
+
+# Anything not on these lists is "external" for the purposes of Ring 1/3.
+internal_domains:
+  - "@acme-internal.com"
+  - "@acme.local"
+internal_hosts:
+  - "intranet.acme-internal.com"
+  - "reports.acme-internal.com"
+  - "localhost"
+
+# Trust-score arithmetic (Ring 5, T15). Session starts at 100.
+trust:
+  start: 100
+  block_penalty: 22
+  escalate_penalty: 9
+  clean_recovery: 2
+  floor: 0
+  ceiling: 100
+
+tools:
+  # ---- readers -------------------------------------------------------
+  read_email:
+    scopes: [read_mail]
+    emits_origin: EXTERNAL_MSG
+    rate_limit: 30
+
+  search_docs:
+    scopes: [read_docs]
+    emits_origin: RETRIEVED_DOC
+    rate_limit: 30
+
+  read_file:
+    scopes: [read_fs]
+    emits_origin: RETRIEVED_DOC
+    rate_limit: 30
+    argument_rules:
+      - field: path
+        deny_patterns: ['\.\.', '^/etc/', '(?i)id_rsa', '(?i)\.env$']
+
+  db_query:
+    scopes: [read_db]
+    emits_origin: TOOL_OUTPUT
+    privileged: true
+    rate_limit: 20
+    deny_patterns:
+      - "(?i)\\bDROP\\b"
+      - "(?i)\\bDELETE\\b"
+      - "(?i)\\bUPDATE\\b"
+      - "(?i)\\bINSERT\\b"
+      - "(?i)\\bALTER\\b"
+      - "(?i)\\bATTACH\\b"
+      - "(?i);\\s*\\w"
+
+  # ---- sinks ---------------------------------------------------------
+  send_email:
+    scopes: [outbound_mail]
+    sink: true
+    destination_field: to
+    requires_trust: 70
+    rate_limit: 3
+    argument_rules:
+      - field: to
+        must_match_domain:
+          - "@acme-internal.com"
+          - "@acme.local"
+      - field: body
+        deny_tainted_egress: true
+        max_len: 20000
+      - field: subject
+        deny_tainted_egress: true
+
+  http_post:
+    scopes: [outbound_http]
+    sink: true
+    destination_field: url
+    requires_trust: 80
+    rate_limit: 2
+    argument_rules:
+      - field: url
+        must_match_host:
+          - "intranet.acme-internal.com"
+          - "reports.acme-internal.com"
+          - "localhost"
+      - field: payload
+        deny_tainted_egress: true
+        max_len: 20000
