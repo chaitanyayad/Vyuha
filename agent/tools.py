@@ -1,4 +1,4 @@
-"""The six tools.  (T3)
+"""The six tools.
 
 Every return value is wrapped in a ToolResult carrying its Origin, which is
 the only reason Ring 1 has anything to work with. A tool that forgets to label

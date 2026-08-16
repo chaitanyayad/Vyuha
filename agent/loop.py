@@ -1,4 +1,4 @@
-"""The agent loop.  (T5)
+"""The agent loop.
 
 plan -> propose intent -> submit to gateway -> receive verdict -> execute or
 re-plan. The agent cannot call a tool directly; `tools.execute` is only ever

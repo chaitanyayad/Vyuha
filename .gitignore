@@ -12,3 +12,5 @@ vyuha.db
 # local commit staging tool — not part of the project
 stage_commits.py
 .commit_state.json
+
+VYUHA_BUILD_PLAN.md

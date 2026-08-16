@@ -1,4 +1,4 @@
-"""Planners.  (T5)
+"""Planners.
 
 Two implementations behind one interface:
 
@@ -10,9 +10,9 @@ distinguish from its principal's. It is a *simulation of a gullible agent*,
 not a shortcut around one: it only follows a payload it actually read, and the
 gateway sees the same natural-language text either way.
 
-`LLMPlanner` drives a real model over the same tool schemas when
-ANTHROPIC_API_KEY is set. Same loop, same gateway, slower and non-deterministic
--- which is why the rehearsed demo runs the scripted one.
+`LLMPlanner` drives a real model over the same tool schemas when an API key is
+set. Same loop, same gateway, slower and non-deterministic -- which is why the
+measured results use the scripted one.
 """
 
 from __future__ import annotations
@@ -34,7 +34,7 @@ class Step:
     arguments: dict[str, Any]
     justification: str = ""
     # Alternative arguments to try after a BLOCK. This is how the probing
-    # attack (T16 case 8) mutates a denied destination.
+    # attack mutates a denied destination.
     mutations: list[dict[str, Any]] = field(default_factory=list)
     # Whether the agent honestly reports what it derived this call from.
     # Injected steps default to False, which is what produces the
