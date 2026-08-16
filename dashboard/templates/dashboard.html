@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VYUHA — trust gateway</title>
+<!-- No CDN anywhere on this page: it renders with no network access. -->
+<link rel="stylesheet" href="/static/vyuha.css">
+</head>
+<body>
+
+<header class="bar">
+  <div class="brand">
+    <span class="mark">V Y U H A</span>
+    <span class="tag">layered trust gateway for tool-using agents</span>
+  </div>
+
+  <div class="controls">
+    <div class="pill" id="ledger-pill" title="Ring 5 — hash-chained ledger">
+      <span class="dot"></span><span id="ledger-text">ledger —</span>
+    </div>
+    <button class="ghost" id="verify-btn">verify chain</button>
+    <button class="ghost" id="reset-btn">reset sandbox</button>
+    <label class="toggle" id="toggle-wrap">
+      <input type="checkbox" id="enforce" {% if enforced %}checked{% endif %}>
+      <span class="track"><span class="knob"></span></span>
+      <span class="toggle-label" id="toggle-label">VYUHA ON</span>
+    </label>
+  </div>
+</header>
+
+<main class="grid">
+
+  <!-- ── column 1 ─────────────────────────────────────────── -->
+  <section class="panel">
+    <h2>Scenarios</h2>
+    <div class="scenarios">
+      <div class="group-label">attacks</div>
+      <div id="attacks" class="chips"></div>
+      <div class="group-label">benign</div>
+      <div id="benign" class="chips"></div>
+    </div>
+
+    <h2 class="spaced">Agent transcript</h2>
+    <div id="transcript" class="stream">
+      <p class="empty">Run a scenario to see the agent work.</p>
+    </div>
+  </section>
+
+  <!-- ── column 2 ─────────────────────────────────────────── -->
+  <section class="panel wide">
+    <h2>Ring verdicts <span class="sub">live</span></h2>
+    <div id="verdicts" class="stream">
+      <p class="empty">Every tool intent passes five rings. Decisions appear here as they happen.</p>
+    </div>
+  </section>
+
+  <!-- ── column 3 ─────────────────────────────────────────── -->
+  <section class="panel">
+    <h2>Session trust</h2>
+    <div class="trust">
+      <div class="trust-value" id="trust-value">100</div>
+      <div class="meter"><div class="fill" id="trust-fill"></div></div>
+      <div class="sub" id="trust-note">no session yet</div>
+    </div>
+
+    <h2 class="spaced">Outbound log <span class="sub">what actually left</span></h2>
+    <div id="outbox" class="stream short">
+      <p class="empty">Nothing has been sent.</p>
+    </div>
+
+    <h2 class="spaced">Ledger</h2>
+    <div id="ledger" class="stream short">
+      <p class="empty">No entries yet.</p>
+    </div>
+
+    <h2 class="spaced">Results <span class="sub">results.json</span></h2>
+    <div id="results" class="results">
+      <p class="empty">Run <code>make benchmark</code> to populate.</p>
+    </div>
+  </section>
+
+</main>
+
+<script src="/static/vyuha.js"></script>
+</body>
+</html>
