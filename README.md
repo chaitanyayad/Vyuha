@@ -30,7 +30,7 @@ Measured against the bundled adversarial suite. Reproduce with
 | Attacks succeeding, gateway **enabled** | **0 / 12** |
 | Benign tasks completing | **15 / 15** |
 | False-positive rate | **0 / 15 (0%)** |
-| Added latency, p50 / p95 | **0.3 ms / 13.0 ms** |
+| Added latency, p50 / p95 | **0.4 ms / 13.8 ms** |
 | Caught by ring | Ring 1: 8 · Ring 2: 9 |
 
 Every attack asserts *both* directions. A case that cannot succeed with the
@@ -326,7 +326,7 @@ suite is for.
 **What if an attacker bypasses the classifier?** Ring 4 is not load-bearing.
 Rings 1–3 are deterministic and catch all twelve attacks without it.
 
-**What is the latency cost?** 13.0 ms at p95. Ring 3 is microseconds; the tail
+**What is the latency cost?** 13.8 ms at p95. Ring 3 is microseconds; the tail
 is Ring 1's matcher over large documents.
 
 **How is this different from a WAF?** A WAF sees one request. Ring 2 keeps the
